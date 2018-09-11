@@ -3,7 +3,10 @@
 
 ### Overview
 
-### Implementation
+### Files	
+
+	img directory contains generated images for the written report
+
 	src directory contains python code for the project
 		metrics.py implements necessary metrics 
 		model.py implements classifier, including the final model
