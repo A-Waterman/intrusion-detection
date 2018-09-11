@@ -3,7 +3,7 @@
 
 ### Overview
 
-### Files	
+### Files
 
 report.md contains the final written report.
 
