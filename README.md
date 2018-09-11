@@ -5,7 +5,7 @@
 
 ### Files
 
-report.md contains the final written report.
+report.md and report.pdf each contains the final written report.
 
 img directory contains generated images for the written report
 
