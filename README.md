@@ -4,6 +4,12 @@
 ### Overview
 
 ### Implementation
+	src directory contains python code for the project
+		metrics.py implements necessary metrics 
+		model.py implements classifier, including the final model
+		preprocessing.py implements various preprocessing routines
+		util.py implements loading and transforming datasets
+		visualization.py implement plotting code
 
 ### Data
 
