@@ -4,7 +4,6 @@
 ### Overview
 
 ### Files	
-	
 
 	img directory contains generated images for the written report
 
