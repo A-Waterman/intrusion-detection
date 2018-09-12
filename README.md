@@ -36,6 +36,20 @@ src directory contains python code for the project
 
 The simulated attack data is obtained from the BATADAL [competition website](https://www.batadal.net/data.html).
 
+Each dataset contains tabular data reporting the time stamp and the observed values from 43 selected sensors (not all the sensors in the network). 
+
+Available readings are: 
+
+* the date and time of the sensor reading ('DATETIME') in the format DD/MM/YY HH.
+
+* the water level in meters for each of seven water tanks ('L_T1' through 'L_T7').
+    
+* the status (binary: 0 for off/closed, 1 for on/open) of elven pumps and one valve in the system ('S_PU1' through 'S_PU11' and 'S_V2').
+
+* the flow in liters per second for each pump and valve in the system (pumps are 'F_PU1' through 'F_PU11' and the only valve is 'F_V2').
+
+* the suction pressure and discharge pressure in pascals for twelve junctions in the system (e.g. 'P_J280' or 'P_J14'). For example, 'P_J280' is the suction pressure for the first pumping station ('PU1', 'PU2', 'PU3') and 'P_269' is the discharge pressure.
+
 ### Reference
 
 Riccardo Taormina and Stefano Galelli and Nils Ole Tippenhauer and Elad Salomons and Avi Ostfeld and Demetrios G. Eliades and Mohsen Aghashahi and Raanju Sundararajan and Mohsen Pourahmadi and M. Katherine Banks and B. M. Brentan and Enrique Campbell and G. Lima and D. Manzi and D. Ayala-Cabrera and M. Herrera and I. Montalvo and J. Izquierdo and E. Luvizotto and Sarin E. Chandy and Amin Rasekh and Zachary A. Barker and Bruce Campbell and M. Ehsan Shafiee and Marcio Giacomoni and Nikolaos Gatsis and Ahmad Taha and Ahmed A. Abokifa and Kelsey Haddad and Cynthia S. Lo and Pratim Biswas and M. Fayzul K. Pasha and Bijay Kc and Saravanakumar Lakshmanan Somasundaram and Mashor Housh and Ziv Ohar; "The Battle Of The Attack Detection Algorithms: Disclosing Cyber Attacks On Water Distribution Networks." Journal of Water Resources Planning and Management, 144 (8), August 2018. ([doi link](http://dx.doi.org/10.1061/(ASCE)WR.1943-5452.0000969), [bib](https://www.batadal.net/taormina18battle.bib))
