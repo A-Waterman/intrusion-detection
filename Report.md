@@ -6,7 +6,7 @@
 
 Industrial control systems (ICS) are computer systems that control the operation of industrial processes and historically have been designed to be operated in isolated environments. Increasingly over time components of these systems have been integrated into larger corporate networks and connected to the Internet without a corresponding attention to security [1][2]. One domain where this has occurred is water distribution systems with the adoption of smart water technologies [3].
 
-The Battle of the Attack Detection ALgorithms (BATADAL) [4] was a recent competition to compare the performance of attack detection algorithms specifically against water distribution systems. This project will use the datasets provided by the the competition website [5] to build and test an attack detection algorithm (also sometimes referred to as intrusion detection).
+The Battle of the Attack Detection ALgorithms (BATADAL) [4] was a recent competition to compare the performance of attack detection algorithms specifically for water distribution systems. This project will use the datasets provided by the the competition website [5] to build and test an attack detection algorithm (also sometimes referred to as intrusion detection).
 
 ### Problem Statement
 
