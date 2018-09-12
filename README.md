@@ -11,6 +11,8 @@ The goal of intrusion detection is to correctly distinguish between when the sys
 
 * The supplied model achieves a false positive rate of 0.005 on the test set (0.0 is best value)
 
+* The supplied model achieves these metrics even when the attacker manipulates the data from a compromised sensor to conceal their actions. A typical strategy found in the datasets is known as a replay attack, when the attacker records normal sensor data and then "replays" it when they actually carry out the attack, concealing the true abnormal sensor data.
+
 Confusion matrix for the test dataset: ![img](img/best_test.png)
 
 ### Domain
