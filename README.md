@@ -30,11 +30,11 @@ report.md and report.pdf each contains the final written report.
 img directory contains generated images for the written report
 
 src directory contains python code for the project
-	* metrics.py implements necessary metrics 
-	* model.py implements classifier, including the final model
-	* preprocessing.py implements various preprocessing routines
-	* util.py implements loading and transforming datasets
-	* visualization.py implement plotting code
+* metrics.py implements necessary metrics 
+* model.py implements classifier, including the final model
+* preprocessing.py implements various preprocessing routines
+* util.py implements loading and transforming datasets
+* visualization.py implement plotting code
 
 ### Data
 
