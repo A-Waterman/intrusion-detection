@@ -3,6 +3,17 @@
 
 ### Overview
 
+The goal of intrusion detection is to correctly distinguish between when the system is under attack and when the system is not under attack. The goal of this project is to minimize the number of false positives (ideally to zero) while at the same time maximizing the number of true positives. The code in this repository achieves this goal:
+
+* The supplied model achieves a Matthews correlation coefficient of 0.886 on the test set (1.0 is perfect correlation, 0.0 is random guessing)
+
+* The supplied model achieves a true positive rate of 0.840 on the test set (1.0 is best value)
+
+* The supplied model achieves a false positive rate of 0.005 on the test set (0.0 is best value)
+
+Confusion matrix for the test dataset: ![img](img/best_test.png)
+
+
 ### Files
 
 report.md and report.pdf each contains the final written report.

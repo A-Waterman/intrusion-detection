@@ -28,7 +28,8 @@ The naive model (either always predicting the water system is under attack or al
 
 An added benefit to the choice of MCC as an evaluation metric is that the BATADAL paper [4] reports the true positives, true negatives, false positives, and false negatives for every submitted model. The MCC of each model can be easily computed and compared with this project's MCC.
 
-An additional metric to evaluate the project is the confusion matrix, for example the optimal confusion matrix for the test dataset looks like: ![test](img/optimal_test.png)
+An additional metric to evaluate the project is the confusion matrix, for example the optimal confusion matrix for the test dataset looks like: 
+![test](img/optimal_test.png)
 
 The upper left hand corner is the number of true negatives, the upper right hand corner is the number of false positives, the lower left hand corner is the number of false negatives and the lower right hand corner is the number of true positives.
 
