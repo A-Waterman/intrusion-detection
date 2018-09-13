@@ -41,6 +41,7 @@ def GMM_experiment(n_components, covariance_type='full', random_state=None, neig
 
     experiment(gmm_exp)
 
+
 def FA_experiment(n_components, neighbors=10, weights='uniform'):
     fa = FactorAnalysis(n_components=43)
     fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
@@ -48,8 +49,14 @@ def FA_experiment(n_components, neighbors=10, weights='uniform'):
     experiment(fa_exp)
 
 
+def PCA_experiment(n_components, whiten=False, random_state=None, neighbors=10, weights='uniform'):
+    pca = PCA(n_components=n_components, whiten=whiten, random_state=random_state)
+    pca_exp = cov_detector(pca, neighbors=neighbors, weights=weights)
+    experiment(pca_exp)
+
+
 def main():
-    FA_experiment(n_components=43)
+    PCA_experiment(n_components=43)
 
 
 if __name__ == '__main__':
