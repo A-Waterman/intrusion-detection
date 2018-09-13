@@ -41,8 +41,16 @@ def GMM_experiment(n_components, covariance_type='full', random_state=None, neig
 
     experiment(gmm_exp)
 
+def FA_experiment(n_components, neighbors=10, weights='uniform'):
+    fa = FactorAnalysis(n_components=43)
+    fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
+
+    experiment(fa_exp)
+
+
 def main():
-	GMM_experiment(n_components=1)
+    FA_experiment(n_components=43)
+
 
 if __name__ == '__main__':
     main()
