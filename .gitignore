@@ -10,3 +10,5 @@ datasets/train_1.csv
 src/__pycache__/preprocessing.cpython-36.pyc
 src/__pycache__/util.cpython-36.pyc
 src/__pycache__/visualization.cpython-36.pyc
+src/__pycache__/metrics.cpython-36.pyc
+src/__pycache__/model.cpython-36.pyc
