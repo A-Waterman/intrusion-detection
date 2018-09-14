@@ -81,8 +81,15 @@ def dual_GMM_experiment(n_components_first, n_components_second, covariance_type
     dual_experiment(gmm_exp)
 
 
+def dual_FA_experiment(n_components_first, n_components_second, random_state=None, neighbors=10, weights='uniform'):
+    fa_0 = FactorAnalysis(n_components=n_components_first, random_state=random_state)
+    fa_1 = FactorAnalysis(n_components=n_components_second, random_state=random_state)
+    fa_exp = dual_cov_detector(fa_0, fa_1, neighbors=neighbors, weights=weights)
+    dual_experiment(fa_exp)
+
+
 def main():
-    dual_GMM_experiment(n_components_first=36, n_components_second=36)
+    dual_FA_experiment(n_components_first=43, n_components_second=43, random_state=0)
 
 
 if __name__ == '__main__':
