@@ -16,7 +16,7 @@ def train_valid_split(X, y, shuffle=True, random_state=0):
     return X[train_index], y[train_index], X[valid_index], y[valid_index]
 
 
-def experiment(exp, seed=0):
+def experiment(exp, seed):
     np.random.seed(seed)
 
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
@@ -35,7 +35,7 @@ def experiment(exp, seed=0):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def dual_experiment(exp, seed=0):
+def dual_experiment(exp, seed):
     np.random.seed(seed)
 
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
@@ -54,63 +54,63 @@ def dual_experiment(exp, seed=0):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def GMM_experiment(n_components, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
-    gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=random_state)
+def GMM_experiment(n_components, covariance_type='full', neighbors=10, weights='uniform', seed=0):
+    gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=None)
     gmm_exp = cov_detector(gmm, neighbors=neighbors, weights=weights)
 
-    experiment(gmm_exp)
+    experiment(gmm_exp, seed)
 
 
-def FA_experiment(n_components, neighbors=10, weights='uniform'):
+def FA_experiment(n_components, neighbors=10, weights='uniform', seed=0):
     fa = FactorAnalysis(n_components=43)
     fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
 
-    experiment(fa_exp)
+    experiment(fa_exp, seed)
 
 
-def PCA_experiment(n_components, whiten=False, random_state=None, neighbors=10, weights='uniform'):
-    pca = PCA(n_components=n_components, whiten=whiten, random_state=random_state)
+def PCA_experiment(n_components, whiten=False, neighbors=10, weights='uniform', seed=0):
+    pca = PCA(n_components=n_components, whiten=whiten, random_state=None)
     pca_exp = cov_detector(pca, neighbors=neighbors, weights=weights)
-    experiment(pca_exp)
+    experiment(pca_exp, seed)
 
 
-def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
-    gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=random_state)
-    gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=random_state)
+def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
+    gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=None)
+    gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=None)
     gmm_exp = dual_cov_detector(gmm_0, gmm_1, neighbors=neighbors, weights=weights)
-    dual_experiment(gmm_exp)
+    dual_experiment(gmm_exp, seed)
 
 
-def dual_FA_experiment(n_components_first, n_components_second, random_state=None, neighbors=10, weights='uniform'):
-    fa_0 = FactorAnalysis(n_components=n_components_first, random_state=random_state)
-    fa_1 = FactorAnalysis(n_components=n_components_second, random_state=random_state)
+def dual_FA_experiment(n_components_first, n_components_second, neighbors=10, weights='uniform', seed=0):
+    fa_0 = FactorAnalysis(n_components=n_components_first, random_state=None)
+    fa_1 = FactorAnalysis(n_components=n_components_second, random_state=None)
     fa_exp = dual_cov_detector(fa_0, fa_1, neighbors=neighbors, weights=weights)
-    dual_experiment(fa_exp)
+    dual_experiment(fa_exp, seed)
 
 
-def dual_PCA_experiment(n_components_first, n_components_second, random_state=None, neighbors=10, weights='uniform'):
-    pca_0 = PCA(n_components=n_components_first, whiten=True, random_state=random_state)
-    pca_1 = PCA(n_components=n_components_second, whiten=True, random_state=random_state)
+def dual_PCA_experiment(n_components_first, n_components_second, neighbors=10, weights='uniform', seed=0):
+    pca_0 = PCA(n_components=n_components_first, whiten=True, random_state=None)
+    pca_1 = PCA(n_components=n_components_second, whiten=True, random_state=None)
     pca_exp = dual_cov_detector(pca_0, pca_1, neighbors=neighbors, weights=weights)
-    dual_experiment(pca_exp)
+    dual_experiment(pca_exp, seed)
 
 
-def combined_GMM_FA_experiment(n_components_gmm, n_components_fa, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=random_state)
-    fa = FactorAnalysis(n_components=n_components_fa, random_state=random_state)
+def combined_GMM_FA_experiment(n_components_gmm, n_components_fa, covariance_type='full', neighbors=10, weights='uniform', seed=0):
+    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
+    fa = FactorAnalysis(n_components=n_components_fa, random_state=None)
     combined_exp = dual_cov_detector(gmm, fa, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp)
+    dual_experiment(combined_exp, seed)
 
 
-def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=random_state)
-    pca = PCA(n_components=n_components_pca, whiten=True, random_state=random_state)
+def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_type='full', neighbors=10, weights='uniform', seed=0):
+    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
+    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
     combined_exp = dual_cov_detector(gmm, pca, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp)
+    dual_experiment(combined_exp, seed)
 
 
 def main():
-    combined_GMM_PCA_experiment(n_components_gmm=36, n_components_pca=28, random_state=0)
+    GMM_experiment(n_components=36, seed=0)
 
 
 if __name__ == '__main__':
