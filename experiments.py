@@ -88,8 +88,15 @@ def dual_FA_experiment(n_components_first, n_components_second, random_state=Non
     dual_experiment(fa_exp)
 
 
+def dual_PCA_experiment(n_components_first, n_components_second, random_state=None, neighbors=10, weights='uniform'):
+    pca_0 = PCA(n_components=n_components_first, whiten=True, random_state=random_state)
+    pca_1 = PCA(n_components=n_components_second, whiten=True, random_state=random_state)
+    pca_exp = dual_cov_detector(pca_0, pca_1, neighbors=neighbors, weights=weights)
+    dual_experiment(pca_exp)
+
+
 def main():
-    dual_FA_experiment(n_components_first=43, n_components_second=43, random_state=0)
+    dual_PCA_experiment(n_components_first=28, n_components_second=28, random_state=0)
 
 
 if __name__ == '__main__':
