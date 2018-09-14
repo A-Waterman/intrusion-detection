@@ -95,8 +95,15 @@ def dual_PCA_experiment(n_components_first, n_components_second, random_state=No
     dual_experiment(pca_exp)
 
 
+def combined_GMM_FA_experiment(n_components_gmm, n_components_fa, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
+    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=random_state)
+    fa = FactorAnalysis(n_components=n_components_fa, random_state=random_state)
+    combined_exp = dual_cov_detector(gmm, fa, neighbors=neighbors, weights=weights)
+    dual_experiment(combined_exp)
+
+
 def main():
-    dual_PCA_experiment(n_components_first=28, n_components_second=28, random_state=0)
+    combined_GMM_FA_experiment(n_components_gmm=36, n_components_fa=43, random_state=0)
 
 
 if __name__ == '__main__':
