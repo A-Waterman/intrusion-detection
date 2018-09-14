@@ -16,8 +16,8 @@ def train_valid_split(X, y, shuffle=True, random_state=0):
     return X[train_index], y[train_index], X[valid_index], y[valid_index]
 
 
-def experiment(exp):
-    np.random.seed(0)
+def experiment(exp, seed=0):
+    np.random.seed(seed)
 
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
 
@@ -35,8 +35,8 @@ def experiment(exp):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def dual_experiment(exp):
-    np.random.seed(0)
+def dual_experiment(exp, seed=0):
+    np.random.seed(seed)
 
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
 
@@ -46,9 +46,9 @@ def dual_experiment(exp):
 
     X_train, y_train, X_valid, y_valid = train_valid_split(X_train, y_train)
 
-    exp.fit_cov(X_safe)
+    exp.fit_cov(X_safe, X_train)
     exp.fit(X_train, y_train)
-    
+
     print("Safe fp: {}".format(exp.false_positives(X_safe, y_safe)))
     print("Valid MCC: {:.3f}".format(exp.score(X_valid, y_valid)))
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
@@ -74,8 +74,15 @@ def PCA_experiment(n_components, whiten=False, random_state=None, neighbors=10, 
     experiment(pca_exp)
 
 
+def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', random_state=None, neighbors=10, weights='uniform'):
+    gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=random_state)
+    gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=random_state)
+    gmm_exp = dual_cov_detector(gmm_0, gmm_1, neighbors=neighbors, weights=weights)
+    dual_experiment(gmm_exp)
+
+
 def main():
-    PCA_experiment(n_components=43)
+    dual_GMM_experiment(n_components_first=36, n_components_second=36)
 
 
 if __name__ == '__main__':
