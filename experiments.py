@@ -115,6 +115,8 @@ def main(args):
         GMM_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
     elif args.estimator == "FA":
         FA_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator == "PCA":
+        PCA_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
