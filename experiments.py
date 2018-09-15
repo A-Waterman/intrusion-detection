@@ -6,6 +6,7 @@ from sklearn.model_selection import StratifiedKFold
 from src.model import cov_detector, dual_cov_detector
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import FactorAnalysis, PCA
+import argparse
 
 
 def train_valid_split(X, y, shuffle=True, random_state=0):
@@ -109,9 +110,14 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
     dual_experiment(combined_exp, seed)
 
 
-def main():
-    GMM_experiment(n_components=36, seed=0)
+def main(args):
+    GMM_experiment(n_components=args.n_components, seed=0)
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("n_components", help="the number of components", type=int)
+
+    args = parser.parse_args()
+    main(args)
+    print(args.n_components)
