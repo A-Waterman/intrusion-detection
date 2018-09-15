@@ -111,13 +111,12 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
 
 
 def main(args):
-    GMM_experiment(n_components=args.n_components, seed=0)
+    GMM_experiment(n_components=args.n_components, seed=args.seed)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("n_components", help="the number of components", type=int)
+    parser.add_argument("seed", help="initial seed", type=int, nargs='?', default=0)
 
-    args = parser.parse_args()
-    main(args)
-    print(args.n_components)
+    main(args = parser.parse_args())
