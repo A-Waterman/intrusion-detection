@@ -112,12 +112,14 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
 
 def main(args):
     if args.estimator == "GMM":
-        GMM_experiment(n_components=args.n_components, seed=args.seed)
+        GMM_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--estimator", help="the covariance matrix estimator")
-    parser.add_argument("-n", "--n_components", help="the number of components", type=int)
+    
+    parser.add_argument("-e", "--estimator", help="the covariance matrix estimator")
+    parser.add_argument("-c", "--components", help="the number of components", type=int)
+    parser.add_argument("-n", "--neighbors", help="the number of neighbors", type=int, nargs='?', default=10)
     parser.add_argument("--seed", help="initial seed", type=int, nargs='?', default=0)
 
     main(args = parser.parse_args())
