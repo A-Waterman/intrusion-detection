@@ -7,6 +7,7 @@ from src.model import cov_detector, dual_cov_detector
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import FactorAnalysis, PCA
 import argparse
+import sys
 
 
 def train_valid_split(X, y, shuffle=True, random_state=0):
@@ -129,4 +130,10 @@ if __name__ == '__main__':
     parser.add_argument("-n", "--neighbors", help="the number of neighbors", type=int, nargs='?', default=10)
     parser.add_argument("--seed", help="initial seed", type=int, nargs='?', default=0)
 
-    main(args = parser.parse_args())
+    args = parser.parse_args()
+    if args.estimator is None:
+        print("Error: missing an estimator. Valid options are: 'GMM', 'FA', or 'PCA'.")
+        parser.print_usage()
+        sys.exit(-1)
+
+    main(args=args)
