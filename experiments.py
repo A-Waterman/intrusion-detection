@@ -113,7 +113,7 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
 
 def main(args):
     if args.estimator is None:
-        print("Error: missing an estimator. Valid options are: 'GMM', 'FA', or 'PCA'.")
+        print("Error: missing an estimator. Valid options are: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
         parser.print_usage()
         sys.exit(-1)
     elif args.components is None:
@@ -126,9 +126,12 @@ def main(args):
         FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator == "PCA":
         PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+    elif len(args.components) > 1:
+        if args.estimator == "dual_GMM":
+            dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
     else:
         print("Invalid estimator:", args.estimator)
-        print("Supported estimators: 'GMM', 'FA', or 'PCA'")
+        print("Supported estimators: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
         parser.print_usage()
 
 if __name__ == '__main__':
