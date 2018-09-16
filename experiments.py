@@ -135,5 +135,9 @@ if __name__ == '__main__':
         print("Error: missing an estimator. Valid options are: 'GMM', 'FA', or 'PCA'.")
         parser.print_usage()
         sys.exit(-1)
+    elif args.components is None:
+        print("Error: missing number of components.")
+        parser.print_usage()
+        sys.exit(-1)
 
     main(args=args)
