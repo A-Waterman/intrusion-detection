@@ -113,33 +113,42 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
 
 def main(args):
     if args.estimator is None:
-        print("Error: missing an estimator. Valid options are: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
+        print("Error: missing an estimator. Valid options are: 'GMM', 'FA', or 'PCA'")
         parser.print_usage()
         sys.exit(-1)
     elif args.components is None:
         print("Error: missing number of components.")
         parser.print_usage()
         sys.exit(-1)
-    elif args.estimator == "GMM":
-        GMM_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
-    elif args.estimator == "FA":
-        FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
-    elif args.estimator == "PCA":
-        PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
-    elif len(args.components) > 1:
-        if args.estimator == "dual_GMM":
+    elif len(args.estimator) == 1:
+        if args.estimator[0] == "GMM":
+            GMM_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+        elif args.estimator[0] == "FA":
+            FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+        elif args.estimator[0] == "PCA":
+            PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+        else:
+            print("Invalid estimator:", args.estimator)
+            print("Supported estimators: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
+            parser.print_usage()
+    elif len(args.estimator) == 2:
+        if args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
             dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        else:
+            print("Invalid estimators:", args.estimator[0], args.estimator[1])
+            print("Supported estimators: 'GMM', 'FA', or 'PCA'")
+            parser.print_usage()
     else:
-        print("Invalid estimator:", args.estimator)
-        print("Supported estimators: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
         parser.print_usage()
+        sys.exit(-1)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-e", "--estimator", help="the covariance matrix estimator")
+    parser.add_argument("-e", "--estimator", help="the covariance matrix estimator", nargs='+')
     parser.add_argument("-c", "--components", help="the number of components", type=int, nargs='+')
     parser.add_argument("-n", "--neighbors", help="the number of neighbors", type=int, nargs='?', default=10)
-    parser.add_argument("--seed", help="initial seed", type=int, nargs='?', default=0)
+    parser.add_argument("-s", "--seed", help="initial seed", type=int, nargs='?', default=0)
 
     main(args=parser.parse_args())
