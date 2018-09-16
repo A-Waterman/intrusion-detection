@@ -119,7 +119,7 @@ def main(args):
         PCA_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
     else:
         print("Invalid estimator:", args.estimator)
-        print("Supported estimators: GMM, FA, PCA")
+        print("Supported estimators: 'GMM', 'FA', or 'PCA'")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
