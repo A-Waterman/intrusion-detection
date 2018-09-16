@@ -112,11 +112,11 @@ def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_t
 
 def main(args):
     if args.estimator == "GMM":
-        GMM_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
+        GMM_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator == "FA":
-        FA_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
+        FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator == "PCA":
-        PCA_experiment(n_components=args.components, neighbors=args.neighbors, seed=args.seed)
+        PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
     else:
         print("Invalid estimator:", args.estimator)
         print("Supported estimators: 'GMM', 'FA', or 'PCA'")
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-e", "--estimator", help="the covariance matrix estimator")
-    parser.add_argument("-c", "--components", help="the number of components", type=int)
+    parser.add_argument("-c", "--components", help="the number of components", type=int, nargs='+')
     parser.add_argument("-n", "--neighbors", help="the number of neighbors", type=int, nargs='?', default=10)
     parser.add_argument("--seed", help="initial seed", type=int, nargs='?', default=0)
 
