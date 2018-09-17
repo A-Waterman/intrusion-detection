@@ -146,6 +146,8 @@ def main(args):
             dual_PCA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
         elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
             combined_GMM_FA_experiment(n_components_gmm=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        elif args.estimator[0] == "GMM" and args.estimator[1] == "PCA":
+            combined_GMM_PCA_experiment(n_components_gmm=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
         else:
             print("Invalid estimators:", args.estimator[0], args.estimator[1])
             print("Supported estimators: 'GMM', 'FA', or 'PCA'")
