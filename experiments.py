@@ -132,7 +132,7 @@ def main(args):
             PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
         else:
             print("Invalid estimator:", args.estimator)
-            print("Supported estimators: 'GMM', 'FA', 'PCA', or 'dual_GMM'")
+            print("Supported estimators: 'GMM', 'FA', 'PCA'")
             error_exit()
     elif len(args.estimator) == 2:
         if len(args.components) < 2:
@@ -140,6 +140,8 @@ def main(args):
             error_exit()
         elif args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
             dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
+            dual_FA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
         else:
             print("Invalid estimators:", args.estimator[0], args.estimator[1])
             print("Supported estimators: 'GMM', 'FA', or 'PCA'")
