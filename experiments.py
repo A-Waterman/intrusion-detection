@@ -124,6 +124,12 @@ def combined_FA_PCA_experiment(n_components_fa, n_components_pca, covariance_typ
     combined_exp = dual_cov_detector(fa, pca, neighbors=neighbors, weights=weights)
     dual_experiment(combined_exp, seed)
 
+def combined_PCA_GMM_experiment(n_components_pca, n_components_gmm, covariance_type='full', neighbors=10, weights='uniform', seed=0):
+    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
+    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
+    combined_exp = dual_cov_detector(pca, gmm, neighbors=neighbors, weights=weights)
+    dual_experiment(combined_exp, seed)
+
 
 def error_exit():
     parser.print_usage()
@@ -166,6 +172,8 @@ def main(args):
             combined_FA_GMM_experiment(n_components_fa=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
         elif args.estimator[0] == "FA" and args.estimator[1] == "PCA":
             combined_FA_PCA_experiment(n_components_fa=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        elif args.estimator[0] == "PCA" and args.estimator[1] == "GMM":
+            combined_PCA_GMM_experiment(n_components_pca=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
         else:
             print("Invalid estimators:", args.estimator[0], args.estimator[1])
             print("Supported estimators: 'GMM', 'FA', or 'PCA'")
