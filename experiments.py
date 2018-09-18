@@ -56,6 +56,21 @@ def dual_experiment(exp, seed):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
+def single_estimator_experiment(args):
+    if args.estimator[0] == "GMM":
+        estimator = GaussianMixture(n_components=args.components[0], covariance_type='full')
+    elif args.estimator[0] == "FA":
+        estimator = FactorAnalysis(n_components=args.components[0])
+    elif args.estimator[0] == "PCA":
+        estimator = PCA(n_components=args.components[0], whiten=True)
+    else:
+        print("Invalid estimator:", args.estimator)
+        print("Supported estimators: 'GMM', 'FA', 'PCA'")
+        error_exit()
+    estimator_experiment = cov_detector(estimator, neighbors=args.neighbors, weights='uniform')
+    experiment(estimator_experiment, seed=args.seed)
+
+
 def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
     gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=None)
     gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=None)
@@ -132,18 +147,7 @@ def main(args):
         print("Error: missing number of components.")
         error_exit()
     elif len(args.estimator) == 1:
-        if args.estimator[0] == "GMM":
-            estimator = GaussianMixture(n_components=args.components[0], covariance_type='full')
-        elif args.estimator[0] == "FA":
-            estimator = FactorAnalysis(n_components=args.components[0])
-        elif args.estimator[0] == "PCA":
-            estimator = PCA(n_components=args.components[0], whiten=True)
-        else:
-            print("Invalid estimator:", args.estimator)
-            print("Supported estimators: 'GMM', 'FA', 'PCA'")
-            error_exit()
-        estimator_experiment = cov_detector(estimator, neighbors=args.neighbors, weights='uniform')
-        experiment(estimator_experiment, seed=args.seed)
+        single_estimator_experiment(args)
     elif len(args.estimator) == 2:
         if len(args.components) < 2:
             print("Error: missing second estimator components.")
