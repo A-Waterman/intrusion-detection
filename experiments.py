@@ -56,12 +56,6 @@ def dual_experiment(exp, seed):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def PCA_experiment(n_components, whiten=False, neighbors=10, weights='uniform', seed=0):
-    pca = PCA(n_components=n_components, whiten=whiten, random_state=None)
-    pca_exp = cov_detector(pca, neighbors=neighbors, weights=weights)
-    experiment(pca_exp, seed)
-
-
 def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
     gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=None)
     gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=None)
@@ -147,7 +141,9 @@ def main(args):
             fa_exp = cov_detector(fa, neighbors=args.neighbors, weights='uniform')
             experiment(fa_exp, seed=args.seed)
         elif args.estimator[0] == "PCA":
-            PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+            pca = PCA(n_components=args.components[0], whiten=True)
+            pca_exp = cov_detector(pca, neighbors=args.neighbors, weights='uniform')
+            experiment(pca_exp, seed=args.seed)
         else:
             print("Invalid estimator:", args.estimator)
             print("Supported estimators: 'GMM', 'FA', 'PCA'")
