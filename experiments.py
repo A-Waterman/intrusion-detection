@@ -56,12 +56,6 @@ def dual_experiment(exp, seed):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def GMM_experiment(n_components, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=None)
-    gmm_exp = cov_detector(gmm, neighbors=neighbors, weights=weights)
-    experiment(gmm_exp, seed)
-
-
 def FA_experiment(n_components, neighbors=10, weights='uniform', seed=0):
     fa = FactorAnalysis(n_components=43)
     fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
@@ -151,7 +145,9 @@ def main(args):
         error_exit()
     elif len(args.estimator) == 1:
         if args.estimator[0] == "GMM":
-            GMM_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+            gmm = GaussianMixture(n_components=args.components[0], covariance_type='full')
+            gmm_exp = cov_detector(gmm, neighbors=args.neighbors, weights='uniform')
+            experiment(gmm_exp, seed=args.seed)
         elif args.estimator[0] == "FA":
             FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
         elif args.estimator[0] == "PCA":
