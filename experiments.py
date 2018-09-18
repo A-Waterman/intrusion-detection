@@ -133,21 +133,17 @@ def main(args):
         error_exit()
     elif len(args.estimator) == 1:
         if args.estimator[0] == "GMM":
-            gmm = GaussianMixture(n_components=args.components[0], covariance_type='full')
-            gmm_exp = cov_detector(gmm, neighbors=args.neighbors, weights='uniform')
-            experiment(gmm_exp, seed=args.seed)
+            estimator = GaussianMixture(n_components=args.components[0], covariance_type='full')
         elif args.estimator[0] == "FA":
-            fa = FactorAnalysis(n_components=args.components[0])
-            fa_exp = cov_detector(fa, neighbors=args.neighbors, weights='uniform')
-            experiment(fa_exp, seed=args.seed)
+            estimator = FactorAnalysis(n_components=args.components[0])
         elif args.estimator[0] == "PCA":
-            pca = PCA(n_components=args.components[0], whiten=True)
-            pca_exp = cov_detector(pca, neighbors=args.neighbors, weights='uniform')
-            experiment(pca_exp, seed=args.seed)
+            estimator = PCA(n_components=args.components[0], whiten=True)
         else:
             print("Invalid estimator:", args.estimator)
             print("Supported estimators: 'GMM', 'FA', 'PCA'")
             error_exit()
+        estimator_experiment = cov_detector(estimator, neighbors=args.neighbors, weights='uniform')
+        experiment(estimator_experiment, seed=args.seed)
     elif len(args.estimator) == 2:
         if len(args.components) < 2:
             print("Error: missing second estimator components.")
