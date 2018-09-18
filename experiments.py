@@ -59,14 +59,12 @@ def dual_experiment(exp, seed):
 def GMM_experiment(n_components, covariance_type='full', neighbors=10, weights='uniform', seed=0):
     gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=None)
     gmm_exp = cov_detector(gmm, neighbors=neighbors, weights=weights)
-
     experiment(gmm_exp, seed)
 
 
 def FA_experiment(n_components, neighbors=10, weights='uniform', seed=0):
     fa = FactorAnalysis(n_components=43)
     fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
-
     experiment(fa_exp, seed)
 
 
