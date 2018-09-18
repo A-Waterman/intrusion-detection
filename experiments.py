@@ -56,12 +56,6 @@ def dual_experiment(exp, seed):
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
 
 
-def FA_experiment(n_components, neighbors=10, weights='uniform', seed=0):
-    fa = FactorAnalysis(n_components=43)
-    fa_exp = cov_detector(fa, neighbors=neighbors, weights=weights)
-    experiment(fa_exp, seed)
-
-
 def PCA_experiment(n_components, whiten=False, neighbors=10, weights='uniform', seed=0):
     pca = PCA(n_components=n_components, whiten=whiten, random_state=None)
     pca_exp = cov_detector(pca, neighbors=neighbors, weights=weights)
@@ -149,7 +143,9 @@ def main(args):
             gmm_exp = cov_detector(gmm, neighbors=args.neighbors, weights='uniform')
             experiment(gmm_exp, seed=args.seed)
         elif args.estimator[0] == "FA":
-            FA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
+            fa = FactorAnalysis(n_components=args.components[0])
+            fa_exp = cov_detector(fa, neighbors=args.neighbors, weights='uniform')
+            experiment(fa_exp, seed=args.seed)
         elif args.estimator[0] == "PCA":
             PCA_experiment(n_components=args.components[0], neighbors=args.neighbors, seed=args.seed)
         else:
