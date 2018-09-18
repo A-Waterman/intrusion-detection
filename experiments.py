@@ -71,6 +71,34 @@ def single_estimator_experiment(args):
     experiment(estimator_experiment, seed=args.seed)
 
 
+def dual_estimator_experiment(args):
+    if len(args.components) < 2:
+        print("Error: missing second estimator components.")
+        error_exit()
+    elif args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
+        dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
+        dual_FA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
+        dual_PCA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
+        combined_GMM_FA_experiment(n_components_gmm=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "GMM" and args.estimator[1] == "PCA":
+        combined_GMM_PCA_experiment(n_components_gmm=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "FA" and args.estimator[1] == "GMM":
+        combined_FA_GMM_experiment(n_components_fa=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "FA" and args.estimator[1] == "PCA":
+        combined_FA_PCA_experiment(n_components_fa=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "PCA" and args.estimator[1] == "GMM":
+        combined_PCA_GMM_experiment(n_components_pca=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    elif args.estimator[0] == "PCA" and args.estimator[1] == "FA":
+        combined_PCA_FA_experiment(n_components_pca=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
+    else:
+        print("Invalid estimators:", args.estimator[0], args.estimator[1])
+        print("Supported estimators: 'GMM', 'FA', or 'PCA'")
+        error_exit()
+
+
 def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
     gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=None)
     gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=None)
@@ -149,34 +177,9 @@ def main(args):
     elif len(args.estimator) == 1:
         single_estimator_experiment(args)
     elif len(args.estimator) == 2:
-        if len(args.components) < 2:
-            print("Error: missing second estimator components.")
-            error_exit()
-        elif args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
-            dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
-            dual_FA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
-            dual_PCA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
-            combined_GMM_FA_experiment(n_components_gmm=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "GMM" and args.estimator[1] == "PCA":
-            combined_GMM_PCA_experiment(n_components_gmm=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "FA" and args.estimator[1] == "GMM":
-            combined_FA_GMM_experiment(n_components_fa=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "FA" and args.estimator[1] == "PCA":
-            combined_FA_PCA_experiment(n_components_fa=args.components[0], n_components_pca=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "PCA" and args.estimator[1] == "GMM":
-            combined_PCA_GMM_experiment(n_components_pca=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        elif args.estimator[0] == "PCA" and args.estimator[1] == "FA":
-            combined_PCA_FA_experiment(n_components_pca=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
-        else:
-            print("Invalid estimators:", args.estimator[0], args.estimator[1])
-            print("Supported estimators: 'GMM', 'FA', or 'PCA'")
-            error_exit()
+        dual_estimator_experiment(args)
     else:
-        parser.print_usage()
-        sys.exit(-1)
+        error_exit()
 
 
 if __name__ == '__main__':
