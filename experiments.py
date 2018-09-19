@@ -82,7 +82,8 @@ def dual_estimator_experiment(args):
         first_est = FactorAnalysis(n_components=args.components[0])
         second_est = FactorAnalysis(n_components=args.components[1])
     elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
-        dual_PCA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        first_est = PCA(n_components=args.components[0], whiten=True)
+        second_est = PCA(n_components=args.components[1], whiten=True)
     elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
         combined_GMM_FA_experiment(n_components_gmm=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator[0] == "GMM" and args.estimator[1] == "PCA":
@@ -101,13 +102,6 @@ def dual_estimator_experiment(args):
         error_exit()
     dual_estimator = dual_cov_detector(first_est, second_est, neighbors=args.neighbors, weights='uniform')
     dual_experiment(dual_estimator, seed=args.seed)
-
-
-def dual_PCA_experiment(n_components_first, n_components_second, neighbors=10, weights='uniform', seed=0):
-    pca_0 = PCA(n_components=n_components_first, whiten=True, random_state=None)
-    pca_1 = PCA(n_components=n_components_second, whiten=True, random_state=None)
-    pca_exp = dual_cov_detector(pca_0, pca_1, neighbors=neighbors, weights=weights)
-    dual_experiment(pca_exp, seed)
 
 
 def combined_GMM_FA_experiment(n_components_gmm, n_components_fa, covariance_type='full', neighbors=10, weights='uniform', seed=0):
