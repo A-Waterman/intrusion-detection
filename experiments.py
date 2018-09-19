@@ -97,9 +97,11 @@ def dual_estimator_experiment(args):
         first_est = FactorAnalysis(n_components=args.components[0])
         second_est = PCA(n_components=args.components[1], whiten=True)
     elif args.estimator[0] == "PCA" and args.estimator[1] == "GMM":
-        combined_PCA_GMM_experiment(n_components_pca=args.components[0], n_components_gmm=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        first_est = PCA(n_components=args.components[0], whiten=True)
+        second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
     elif args.estimator[0] == "PCA" and args.estimator[1] == "FA":
-        combined_PCA_FA_experiment(n_components_pca=args.components[0], n_components_fa=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        first_est = PCA(n_components=args.components[0], whiten=True)
+        second_est = FactorAnalysis(n_components=args.components[1])
     else:
         print("Invalid estimators:", args.estimator[0], args.estimator[1])
         print("Supported estimators: 'GMM', 'FA', or 'PCA'")
