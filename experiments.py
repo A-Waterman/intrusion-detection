@@ -76,7 +76,8 @@ def dual_estimator_experiment(args):
         print("Error: missing second estimator components.")
         error_exit()
     elif args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
-        dual_GMM_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
+        second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
     elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
         dual_FA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
@@ -97,6 +98,8 @@ def dual_estimator_experiment(args):
         print("Invalid estimators:", args.estimator[0], args.estimator[1])
         print("Supported estimators: 'GMM', 'FA', or 'PCA'")
         error_exit()
+    dual_estimator = dual_cov_detector(first_est, second_est, neighbors=args.neighbors, weights='uniform')
+    dual_experiment(dual_estimator, seed=args.seed)
 
 
 def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
