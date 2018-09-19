@@ -72,84 +72,34 @@ def single_estimator_experiment(args):
 
 
 def dual_estimator_experiment(args):
+    if args.estimator[0] == "GMM":
+        first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
+    elif args.estimator[0] == "FA":
+        first_est = FactorAnalysis(n_components=args.components[0])
+    elif args.estimator[0] == "PCA":
+        first_est = PCA(n_components=args.components[0], whiten=True)
+    else:
+        print("Invalid estimator:", args.estimator[0])
+        print("Supported estimators: 'GMM', 'FA', or 'PCA'")
+        error_exit()
+
     if len(args.components) < 2:
         print("Error: missing second estimator components.")
         error_exit()
-    elif args.estimator[0] == "GMM" and args.estimator[1] == "GMM":
-        first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
+
+    if args.estimator[1] == "GMM":
         second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
-    elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
-        first_est = FactorAnalysis(n_components=args.components[0])
+    elif args.estimator[1] == "FA":
         second_est = FactorAnalysis(n_components=args.components[1])
-    elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
-        first_est = PCA(n_components=args.components[0], whiten=True)
+    elif args.estimator[1] == "PCA":
         second_est = PCA(n_components=args.components[1], whiten=True)
-    elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
-        first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
-        second_est = FactorAnalysis(n_components=args.components[1])
-    elif args.estimator[0] == "GMM" and args.estimator[1] == "PCA":
-        first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
-        second_est = PCA(n_components=args.components[1], whiten=True)
-    elif args.estimator[0] == "FA" and args.estimator[1] == "GMM":
-        first_est = FactorAnalysis(n_components=args.components[0])
-        second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
-    elif args.estimator[0] == "FA" and args.estimator[1] == "PCA":
-        first_est = FactorAnalysis(n_components=args.components[0])
-        second_est = PCA(n_components=args.components[1], whiten=True)
-    elif args.estimator[0] == "PCA" and args.estimator[1] == "GMM":
-        first_est = PCA(n_components=args.components[0], whiten=True)
-        second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
-    elif args.estimator[0] == "PCA" and args.estimator[1] == "FA":
-        first_est = PCA(n_components=args.components[0], whiten=True)
-        second_est = FactorAnalysis(n_components=args.components[1])
     else:
-        print("Invalid estimators:", args.estimator[0], args.estimator[1])
+        print("Invalid estimator:", args.estimator[1])
         print("Supported estimators: 'GMM', 'FA', or 'PCA'")
         error_exit()
+
     dual_estimator = dual_cov_detector(first_est, second_est, neighbors=args.neighbors, weights='uniform')
     dual_experiment(dual_estimator, seed=args.seed)
-
-
-def combined_GMM_FA_experiment(n_components_gmm, n_components_fa, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
-    fa = FactorAnalysis(n_components=n_components_fa, random_state=None)
-    combined_exp = dual_cov_detector(gmm, fa, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
-
-
-def combined_GMM_PCA_experiment(n_components_gmm, n_components_pca, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
-    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
-    combined_exp = dual_cov_detector(gmm, pca, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
-
-
-def combined_FA_GMM_experiment(n_components_fa, n_components_gmm, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    fa = FactorAnalysis(n_components=n_components_fa, random_state=None)
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
-    combined_exp = dual_cov_detector(fa, gmm, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
-
-
-def combined_FA_PCA_experiment(n_components_fa, n_components_pca, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    fa = FactorAnalysis(n_components=n_components_fa, random_state=None)
-    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
-    combined_exp = dual_cov_detector(fa, pca, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
-
-
-def combined_PCA_GMM_experiment(n_components_pca, n_components_gmm, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
-    gmm = GaussianMixture(n_components=n_components_gmm, covariance_type=covariance_type, random_state=None)
-    combined_exp = dual_cov_detector(pca, gmm, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
-
-
-def combined_PCA_FA_experiment(n_components_pca, n_components_fa, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    pca = PCA(n_components=n_components_pca, whiten=True, random_state=None)
-    fa = FactorAnalysis(n_components=n_components_fa, random_state=None)
-    combined_exp = dual_cov_detector(pca, fa, neighbors=neighbors, weights=weights)
-    dual_experiment(combined_exp, seed)
 
 
 def error_exit():
