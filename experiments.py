@@ -79,7 +79,8 @@ def dual_estimator_experiment(args):
         first_est = GaussianMixture(n_components=args.components[0], covariance_type='full')
         second_est = GaussianMixture(n_components=args.components[1], covariance_type='full')
     elif args.estimator[0] == "FA" and args.estimator[1] == "FA":
-        dual_FA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
+        first_est = FactorAnalysis(n_components=args.components[0])
+        second_est = FactorAnalysis(n_components=args.components[1])
     elif args.estimator[0] == "PCA" and args.estimator[1] == "PCA":
         dual_PCA_experiment(n_components_first=args.components[0], n_components_second=args.components[1], neighbors=args.neighbors, seed=args.seed)
     elif args.estimator[0] == "GMM" and args.estimator[1] == "FA":
@@ -100,20 +101,6 @@ def dual_estimator_experiment(args):
         error_exit()
     dual_estimator = dual_cov_detector(first_est, second_est, neighbors=args.neighbors, weights='uniform')
     dual_experiment(dual_estimator, seed=args.seed)
-
-
-def dual_GMM_experiment(n_components_first, n_components_second, covariance_type='full', neighbors=10, weights='uniform', seed=0):
-    gmm_0 = GaussianMixture(n_components=n_components_first, covariance_type=covariance_type, random_state=None)
-    gmm_1 = GaussianMixture(n_components=n_components_second, covariance_type=covariance_type, random_state=None)
-    gmm_exp = dual_cov_detector(gmm_0, gmm_1, neighbors=neighbors, weights=weights)
-    dual_experiment(gmm_exp, seed)
-
-
-def dual_FA_experiment(n_components_first, n_components_second, neighbors=10, weights='uniform', seed=0):
-    fa_0 = FactorAnalysis(n_components=n_components_first, random_state=None)
-    fa_1 = FactorAnalysis(n_components=n_components_second, random_state=None)
-    fa_exp = dual_cov_detector(fa_0, fa_1, neighbors=neighbors, weights=weights)
-    dual_experiment(fa_exp, seed)
 
 
 def dual_PCA_experiment(n_components_first, n_components_second, neighbors=10, weights='uniform', seed=0):
