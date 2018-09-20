@@ -18,7 +18,7 @@ def train_valid_split(X, y, shuffle=True):
     return X[train_index], y[train_index], X[valid_index], y[valid_index]
 
 
-def experiment(exp, seed):
+def experiment(exp, seed, dual=False):
     np.random.seed(seed)
 
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
@@ -29,28 +29,12 @@ def experiment(exp, seed):
 
     X_train, y_train, X_valid, y_valid = train_valid_split(X_train, y_train)
 
-    exp.fit_cov(X_safe)
+    if dual is True:
+        exp.fit_cov(X_safe, X_train)
+    else:
+        exp.fit_cov(X_safe)
     exp.fit(X_train, y_train)
     
-    print("Safe fp: {}".format(exp.false_positives(X_safe, y_safe)))
-    print("Valid MCC: {:.3f}".format(exp.score(X_valid, y_valid)))
-    print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
-
-
-def dual_experiment(exp, seed):
-    np.random.seed(seed)
-
-    safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
-
-    X_safe, y_safe = split_data(safe_dataset)
-    X_train, y_train = split_data(train_dataset)
-    X_test, y_test = split_data(test_dataset)
-
-    X_train, y_train, X_valid, y_valid = train_valid_split(X_train, y_train)
-
-    exp.fit_cov(X_safe, X_train)
-    exp.fit(X_train, y_train)
-
     print("Safe fp: {}".format(exp.false_positives(X_safe, y_safe)))
     print("Valid MCC: {:.3f}".format(exp.score(X_valid, y_valid)))
     print("Valid fp: {}".format(exp.false_positives(X_valid, y_valid)))
@@ -99,7 +83,7 @@ def dual_estimator_experiment(args):
         error_exit()
 
     dual_estimator = dual_cov_detector(first_est, second_est, neighbors=args.neighbors, weights='uniform')
-    dual_experiment(dual_estimator, seed=args.seed)
+    experiment(dual_estimator, seed=args.seed, dual=True)
 
 
 def error_exit():
