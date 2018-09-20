@@ -7,6 +7,12 @@ def full_data(dataframe):
                            'ATT_PU5','ATT_PU6', 'ATT_PU7', 'ATT_PU8', 'ATT_PU9', 'ATT_PU10',
                            'ATT_PU11', 'ATT_V2'], axis = 1)
 
+def full_components(dataframe):
+  return dataframe[['ATT_T1', 'ATT_T2', 'ATT_T3', 'ATT_T4', 'ATT_T5', 
+                    'ATT_T6', 'ATT_T7','ATT_PU1', 'ATT_PU2', 'ATT_PU3', 'ATT_PU4', 
+                    'ATT_PU5','ATT_PU6', 'ATT_PU7', 'ATT_PU8', 'ATT_PU9', 'ATT_PU10',
+                    'ATT_PU11', 'ATT_V2']]
+
 def continous_data(dataframe):
     return dataframe[['L_T1', 'L_T2', 'L_T3', 'L_T4', 'L_T5', 'L_T6', 'L_T7',
                       'F_PU1', 'F_PU2', 'F_PU3', 'F_PU4', 'F_PU5', 'F_PU6', 
