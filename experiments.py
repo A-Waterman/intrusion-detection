@@ -10,8 +10,8 @@ import argparse
 import sys
 
 
-def train_valid_split(X, y, shuffle=True, random_state=0):
-    skf = StratifiedKFold(n_splits=2, shuffle=shuffle, random_state=random_state)
+def train_valid_split(X, y, shuffle=True):
+    skf = StratifiedKFold(n_splits=2, shuffle=shuffle)
     train, valid = skf.split(X, y)
     train_index = train[0]
     valid_index = valid[0]
