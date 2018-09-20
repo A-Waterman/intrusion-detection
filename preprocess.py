@@ -5,9 +5,7 @@ from src.preprocessing import full_data, split_data, full_components
 from src.model import intrusion_detector
 
 
-def main():
-    np.random.seed(0)
-
+def preprocess_datasets():
     safe_dataset, train_dataset, test_dataset = transform_datasets(full_data)
 
     X_safe, y_safe = split_data(safe_dataset)
@@ -21,6 +19,13 @@ def main():
     preprocessed_train = best.predict_attack_probability(X_train)
     preprocessed_test = best.predict_attack_probability(X_test)
 
+    return preprocessed_safe, preprocessed_train, preprocessed_test
+
+
+def main():
+    np.random.seed(0)
+
+    preprocessed_safe, preprocessed_train, preprocessed_test = preprocess_datasets()
     safe_components, train_components, test_components = transform_datasets(full_components)
 
 
