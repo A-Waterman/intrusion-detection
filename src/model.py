@@ -22,7 +22,7 @@ class base_detector():
     def predict_safe_probability(self, X):
         return self.clf.predict_proba(self.log_likelihood(X))[:,0]
     
-    def predict_attack_probability():
+    def predict_attack_probability(self, X):
         return self.clf.predict_proba(self.log_likelihood(X))[:,1]
     
     def score(self, X, y):

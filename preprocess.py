@@ -17,11 +17,8 @@ def main():
     best = intrusion_detector(X_safe, gmm_components=36, pca_components=28, neighbors=10)
     best.fit(X_train, y_train)
 
-    print("Safe fp: {}".format(best.false_positives(X_safe, y_safe)))
-    print("Train MCC: {:.3f}".format(best.score(X_train, y_train)))
-    print("Test MCC: {:.3f}".format(best.score(X_test, y_test)))
-    print("Test fp: {}".format(best.false_positives(X_test, y_test)))
-
+    preprocessed_train = best.predict_attack_probability(X_train)
+    preprocessed_test = best.predict_attack_probability(X_test)
 
 if __name__ == '__main__':
     main()
