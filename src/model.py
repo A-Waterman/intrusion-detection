@@ -33,7 +33,7 @@ class base_detector():
 
     
 class intrusion_detector(base_detector):
-    def __init__(self, X, gmm_components=36, pca_components=28, neighbors=10, state=0):
+    def __init__(self, X, gmm_components=36, pca_components=28, neighbors=10, state=None):
         self.safe_gmm = GaussianMixture(n_components=gmm_components, 
                                         covariance_type='full', random_state=state)
         self.train_pca = PCA(n_components=pca_components, whiten=True, random_state=state)

@@ -25,7 +25,6 @@ def main():
     X_test, y_test = split_data(test_dataset)
 
     preprocessed_safe, preprocessed_train, preprocessed_test = preprocess_datasets(X_safe, X_train, y_train, X_test)
-    
 
 
 if __name__ == '__main__':
