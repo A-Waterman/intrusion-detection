@@ -19,20 +19,31 @@ def label_attacks(dataset, type=""):
     for key in Attacks:
         dataset[key] = 0
 
-    if type == "safe":
-        return dataset
-    else:
-        print("Error: type must be one of 'safe', 'train', or 'test'")
-        return None
+    if type == "train":
+        label_attack(dataset, 1727, 1776, ['ATT_T7'])
+        label_attack(dataset, 2027, 2050, ['ATT_T7', 'ATT_PU10', 'ATT_PU11'])
+        label_attack(dataset, 2337, 2396, ['ATT_T1'])
+        label_attack(dataset, 2827, 2920, ['ATT_T1', 'ATT_PU1', 'ATT_PU2']) # J269
+        label_attack(dataset, 3497, 3556, ['ATT_PU7'])
+        label_attack(dataset, 3727, 3820, ['ATT_T4', 'ATT_PU7'])
+        label_attack(dataset, 3927, 4036, ['ATT_T1', 'ATT_T4', 'ATT_PU1', 'ATT_PU2', 'ATT_PU7'])
+    
+    return dataset
 
 
 def main():
-    if Path("datasets/train_0.csv").exists():
-        training_0 = pd.read_csv("datasets/train_0.csv")
-    else:
+    if Path("datasets/train_0.csv").exists() == False:
         training_0 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset03.csv")
         training_0 = label_attacks(training_0, "safe")
         training_0.to_csv('datasets/train_0.csv', index=False)
+    else:
+        training_0 = pd.read_csv("datasets/train_0.csv")
+
+    if Path("datasets/train_1.csv").exists() == False:
+        training_1 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset04.csv")
+        training_1 = normalize(training_0, training_1)
+        training_1 = label_attacks(training_1, "train")
+        training_1.to_csv('datasets/train_1.csv', index=False)
 
 
 if __name__ == '__main__':
