@@ -42,6 +42,11 @@ def transform_datasets(func):
     
     return safe, train, test
 
+def normalize(base, dataset):
+    for index in range(len(base.columns)):
+        dataset.rename(columns={dataset.columns[index]: base.columns[index]}, inplace=True)
+
+
 def label_attack(dataset, index_start, index_end, components):
     dataset.loc[index_start:index_end, 'ATT_FLAG'] = 1
     for component in components:
@@ -57,13 +62,8 @@ def label_save_datasets():
     test_dataset['ATT_FLAG'] = 0
     
     # normalize column names (e.g. ' ATT_FLAG' to 'ATT_FLAG')
-    for index in range(len(training_01.columns)):
-        training_02.rename(columns={training_02.columns[index]: training_01.columns[index]},
-                           inplace=True)
-
-    for index in range(len(training_01.columns)):
-        test_dataset.rename(columns={test_dataset.columns[index]: training_01.columns[index]},
-                            inplace=True)
+    normalize(training_01, training_02)
+    normalize(training_01, test_dataset)
     
     Attacks = ['ATT_FLAG',
                'ATT_T1', 'ATT_T2', 'ATT_T3', 'ATT_T4', 'ATT_T5', 'ATT_T6', 'ATT_T7',
