@@ -90,34 +90,9 @@ def label_save_datasets():
     normalize(training_01, training_02)
     normalize(training_01, test_dataset)
     
-    Attacks = ['ATT_FLAG',
-               'ATT_T1', 'ATT_T2', 'ATT_T3', 'ATT_T4', 'ATT_T5', 'ATT_T6', 'ATT_T7',
-               'ATT_PU1', 'ATT_PU2', 'ATT_PU3', 'ATT_PU4', 'ATT_PU5', 'ATT_PU6', 'ATT_PU7',
-               'ATT_PU8', 'ATT_PU9', 'ATT_PU10', 'ATT_PU11', 'ATT_V2']
-    
-    # initalize
-    for key in Attacks:
-        training_01[key] = 0
-        training_02[key] = 0
-        test_dataset[key] = 0
-        
-    # label second training dataset with attacks 
-    label_attack(training_02, 1727, 1776, ['ATT_T7'])
-    label_attack(training_02, 2027, 2050, ['ATT_T7', 'ATT_PU10', 'ATT_PU11'])
-    label_attack(training_02, 2337, 2396, ['ATT_T1'])
-    label_attack(training_02, 2827, 2920, ['ATT_T1', 'ATT_PU1', 'ATT_PU2']) # J269
-    label_attack(training_02, 3497, 3556, ['ATT_PU7'])
-    label_attack(training_02, 3727, 3820, ['ATT_T4', 'ATT_PU7'])
-    label_attack(training_02, 3927, 4036, ['ATT_T1', 'ATT_T4', 'ATT_PU1', 'ATT_PU2', 'ATT_PU7'])
-    
-    # label test dataset with attacks
-    label_attack(test_dataset, 297, 366, ['ATT_T3', 'ATT_PU4', 'ATT_PU5'])
-    label_attack(test_dataset, 632, 696, ['ATT_T2', 'ATT_V2'])
-    label_attack(test_dataset, 867, 897, ['ATT_PU3'])
-    label_attack(test_dataset, 939, 969, ['ATT_PU3'])
-    label_attack(test_dataset, 1229, 1328, ['ATT_T2', 'ATT_V2']) # J14, J422
-    label_attack(test_dataset, 1574, 1653, ['ATT_T7', 'ATT_PU10', 'ATT_PU11']) # J14, J422
-    label_attack(test_dataset, 1940, 1969, ['ATT_T4'])
+    label_attacks(training_0, "safe")
+    label_attacks(training_1, "train")
+    label_attacks(test, "test")
     
     # save datasets
     training_01.to_csv('datasets/train_0.csv', index=False)
