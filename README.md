@@ -40,7 +40,6 @@ Scrips:
 * best.py is a script to run the most successful configuration
 * datasets.py is a script to download and label the datasets from the competition's website.
 * experiments.py is a script to evaluate various configurations of models
-* preprocess.py is a work in progress to identify affected components.
 * visualize.py is a script with visualization code.
 
 ### Data
