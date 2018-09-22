@@ -36,6 +36,13 @@ src directory contains python code for the project
 * util.py implements loading and transforming datasets
 * visualization.py implement plotting code
 
+Scrips:
+* best.py is a script to run the most successful configuration
+* datasets.py is a script to download and label the datasets from the competition's website.
+* experiments.py is a script to evaluate various configurations of models
+* preprocess.py is a work in progress to identify affected components.
+* visualize.py is a script with visualization code.
+
 ### Data
 
 The simulated attack data is obtained from the BATADAL [competition website](https://www.batadal.net/data.html).
