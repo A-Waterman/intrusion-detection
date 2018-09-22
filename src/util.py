@@ -163,10 +163,9 @@ def label_save_datasets():
         training_1.to_csv('datasets/train_1.csv', index=False)
 
     if Path("datasets/test.csv").exists() == False:
-        #download zip file from website and extract it
-        # TODO
+        test_dataset = pd.read_csv("https://www.batadal.net/data/BATADAL_test_dataset.zip", compression='zip')
         # test_dataset missing attack flag
         test_dataset['ATT_FLAG'] = 0
-        normalize(training_0, test)
-        label_attacks(test, "test")
-        training_1.to_csv('datasets/test.csv', index=False)
+        normalize(training_0, test_dataset)
+        label_attacks(test_dataset, "test")
+        test_dataset.to_csv('datasets/test.csv', index=False)
