@@ -78,23 +78,24 @@ def label_attacks(dataset, type=""):
         label_attack(dataset, 1940, 1969, ['ATT_T4'])
 
 def label_save_datasets():
-    # load the downloaded datasets
-    training_01 = pd.read_csv('datasets/BATADAL_dataset03.csv')
-    training_02 = pd.read_csv('datasets/BATADAL_dataset04.csv')
-    test_dataset = pd.read_csv('datasets/BATADAL_test_dataset.csv')
-    
-    # test_dataset missing attack flag
-    test_dataset['ATT_FLAG'] = 0
-    
-    # normalize column names (e.g. ' ATT_FLAG' to 'ATT_FLAG')
-    normalize(training_01, training_02)
-    normalize(training_01, test_dataset)
-    
-    label_attacks(training_0, "safe")
-    label_attacks(training_1, "train")
-    label_attacks(test, "test")
-    
-    # save datasets
-    training_01.to_csv('datasets/train_0.csv', index=False)
-    training_02.to_csv('datasets/train_1.csv', index=False)
-    test_dataset.to_csv('datasets/test.csv', index=False)
+    if Path("datasets/train_0.csv").exists() == False:
+        training_0 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset03.csv")
+        label_attacks(training_0, "safe")
+        training_0.to_csv('datasets/train_0.csv', index=False)
+    else:
+        training_0 = pd.read_csv("datasets/train_0.csv")
+
+    if Path("datasets/train_1.csv").exists() == False:
+        training_1 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset04.csv")
+        normalize(training_0, training_1)
+        label_attacks(training_1, "train")
+        training_1.to_csv('datasets/train_1.csv', index=False)
+
+    if Path("datasets/test.csv").exists() == False:
+        #download zip file from website and extract it
+        # TODO
+        # test_dataset missing attack flag
+        test_dataset['ATT_FLAG'] = 0
+        normalize(training_0, test)
+        label_attacks(test, "test")
+        training_1.to_csv('datasets/test.csv', index=False)
