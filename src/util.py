@@ -3,7 +3,7 @@ import numpy as np
 from math import log
 from sklearn.utils.extmath import fast_logdet
 
-# code adapted from 
+
 def samplewise_log_likelihood(X, mean, precision):
     """Return the log-likelihood of each sample.
         See - http://www.miketipping.com/papers/met-mppca.pdf
@@ -26,14 +26,36 @@ def samplewise_log_likelihood(X, mean, precision):
     log_like -= .5 * (n_features * log(2. * np.pi) - fast_logdet(precision))
     return log_like.reshape(-1, 1)
 
+
 def load_datasets():
+    """Return the three datasets
+
+        Returns
+        -------
+        safe : pandas dataframe of the first training dataset without attacks ('safe' dataset)
+        train: pandas dataframe of the second training dataset with attacks ('train' dataset)
+        test: pandas dataframe of the testing dataset with attacks ('test' dataset)
+    """
     safe = pd.read_csv('datasets/train_0.csv')
     train = pd.read_csv('datasets/train_1.csv')
     test = pd.read_csv('datasets/test.csv')
     
     return safe, train, test
 
+
 def transform_datasets(func):
+    """Transforms and returns each of the three datasets 
+
+        Parameters
+        ----------
+            func : function, the desired transformation function
+        
+        Returns
+        -------
+        safe : pandas dataframe of the transformed 'safe' dataset
+        train: pandas dataframe of the transformed 'train' dataset
+        test: pandas dataframe of the transformed 'test' dataset
+    """
     safe_dataset, train_dataset, test_dataset = load_datasets()
     
     safe = func(safe_dataset)
@@ -42,16 +64,54 @@ def transform_datasets(func):
     
     return safe, train, test
 
+
 def normalize(base, dataset):
+    """Normalizes the columns names of a dataset given a reference
+
+        Parameters
+        ----------
+            base : dataset, the reference dataset for the column names (usually the 'safe' dataset)
+            dataset: the dataset with columns to be normalized
+        
+        Returns
+        -------
+            None, normalization occurs in place
+    """
     for index in range(len(base.columns)):
         dataset.rename(columns={dataset.columns[index]: base.columns[index]}, inplace=True)
 
+
 def label_attack(dataset, index_start, index_end, components):
+    """Label one attack on a dataset
+
+        Parameters
+        ----------
+            dataset: dataset, the dataset to label the attacks on
+            index_start: int, the first index of the attack
+            index_end: int, the last index of the attack
+            components: list, the list of components affected by the attack
+        
+        Returns
+        -------
+            None, labeling occurs in place
+    """
     dataset.loc[index_start:index_end, 'ATT_FLAG'] = 1
     for component in components:
         dataset.loc[index_start:index_end, component] = 1
 
+
 def label_attacks(dataset, type=""):
+    """Label all attacks on a dataset
+
+        Parameters
+        ----------
+            dataset: dataset, the dataset to label the attacks on
+            type, string, one of 'safe', 'train', or 'test'
+
+        Returns
+        -------
+            None, labeling occurs in place
+    """
     Attacks = ['ATT_FLAG',
                 'ATT_T1', 'ATT_T2', 'ATT_T3', 'ATT_T4', 'ATT_T5', 'ATT_T6', 'ATT_T7',
                 'ATT_PU1', 'ATT_PU2', 'ATT_PU3', 'ATT_PU4', 'ATT_PU5', 'ATT_PU6', 'ATT_PU7',
@@ -77,7 +137,18 @@ def label_attacks(dataset, type=""):
         label_attack(dataset, 1574, 1653, ['ATT_T7', 'ATT_PU10', 'ATT_PU11']) # J14, J422
         label_attack(dataset, 1940, 1969, ['ATT_T4'])
 
+
 def label_save_datasets():
+    """Tests if the each dataset needs to be downloaded, labeled, and saved.
+
+        Parameters
+        ----------
+            None, 
+
+        Returns
+        -------
+            None, generates 'datasets/train_0.csv', 'datasets/train_1.csv', and 'datasets/test.csv'.
+    """
     if Path("datasets/train_0.csv").exists() == False:
         training_0 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset03.csv")
         label_attacks(training_0, "safe")
