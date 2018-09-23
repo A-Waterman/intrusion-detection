@@ -49,6 +49,17 @@ def dma_5_data(dataframe):
                       'ATT_FLAG']]
 
 def split_data(dataframe):
+    """ Split the dataset into features and labels
+
+        Parameters
+        ----------
+            dataframe : the full dataset
+
+        Returns
+        -------
+            features : the features of the dataset
+            labels : the attack flag label of the dataset
+    """
     label = dataframe[['ATT_FLAG']].values.ravel()
     features = dataframe.drop(['ATT_FLAG'], axis = 1).values
     return features, label
@@ -82,7 +93,7 @@ HOURS = ['00', '01', '02', '03', '04', '05', '06', '07',
          '16', '17', '18', '19', '20', '21', '22', '23']
 
 def extract_hourly_mean_std(dataframe):
-    """ Get the hourly mean and standard deviation for each hour in the dataset
+    """ Get the hourly mean and standard deviation for the dataset
 
         Parameters
         ----------
@@ -95,6 +106,18 @@ def extract_hourly_mean_std(dataframe):
     return [dataframe.loc[dataframe['HOUR'] == hour].describe()[1:3] for hour in HOURS]
 
 def normalize_by_hour(dataframe, stats):
+    """ Normalize the dataset by hour. 
+        Warning: results in worse performance
+
+        Parameters
+        ----------
+            dataframe : dataframe, the full dataset
+            stats : list, the hourly mean and standard deviation for the dataset (see extract_hourly_mean_std())
+
+        Returns
+        -------
+            dataframe : the normalized dataset
+    """
     df = dataframe.copy()
     for hour in range(24):
         df.loc[df['HOUR'] == HOURS[hour], 'HOUR'] = hour
