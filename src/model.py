@@ -27,14 +27,34 @@ class base_detector():
         
         Returns
         -------
-        predictions : list, prediction if the system is under attack for each time-step
+            predictions : list, prediction if the system is under attack for each time-step
         """
         return self.clf.predict(self.log_likelihood(X)) 
     
     def predict_safe_probability(self, X):
+        """Predicts the probability that the system is not under attack
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+            predictions : list, prediction probability that the system is not under attack
+        """
         return self.clf.predict_proba(self.log_likelihood(X))[:,0]
     
     def predict_attack_probability(self, X):
+        """Predicts the probability that the system is under attack
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+            predictions : list, prediction probability that the system is under attack
+        """
         return self.clf.predict_proba(self.log_likelihood(X))[:,1]
     
     def score(self, X, y):
