@@ -112,11 +112,32 @@ class intrusion_detector(base_detector):
         self.safe_gmm.fit(X)
 
     def log_likelihood(self, X):
+        """Compute the log-likelihood of sample features
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+            log-likelihood : array, the  the log-likelihood of the sample features
+        """
         ll_gmm = self.safe_gmm.score_samples(X).reshape(-1, 1)
         ll_pca = self.train_pca.score_samples(X).reshape(-1, 1)
         return np.concatenate((ll_gmm, ll_pca), axis=1)
         
     def fit(self, X, y):
+        """Fit the model to a dataset
+
+        Parameters
+        ----------
+            X : array, sample features to train the model on
+            y : array, corresponding labels to the sample features
+        
+        Returns
+        -------
+            None
+        """
         self.train_pca.fit(X)
         self.clf.fit(self.log_likelihood(X), y)
 
