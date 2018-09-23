@@ -8,6 +8,8 @@ from abc import abstractmethod
 
 
 class base_detector():
+    """ Base detector class, all detectors inherit methods
+    """
     @abstractmethod
     def log_liklihood(self, X):
         return
@@ -17,6 +19,16 @@ class base_detector():
         pass
     
     def predict(self, X):
+        """Predicts if the system is under attack for each sample  
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+        predictions : list, prediction if the system is under attack for each time-step
+        """
         return self.clf.predict(self.log_likelihood(X)) 
     
     def predict_safe_probability(self, X):
