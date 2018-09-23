@@ -53,9 +53,19 @@ def split_data(dataframe):
     features = dataframe.drop(['ATT_FLAG'], axis = 1).values
     return features, label
 
-# Code to normalize data basesd on hour, resulted in poorer preformance
+# Code to normalize data based on hour, resulted in poorer performance
 
 def split_datetime(dataframe):
+    """ Split the date-time feature of a dataset into date and hour
+
+        Parameters
+        ----------
+            dataframe : dataframe, shape(n_samples, 64), the full dataset
+
+        Returns
+        -------
+            dataframe : the dataframe with the date-time feature split into date and hour
+    """
     labels = dataframe[['ATT_FLAG', 'ATT_T1', 'ATT_T2', 'ATT_T3', 'ATT_T4', 'ATT_T5', 
                         'ATT_T6', 'ATT_T7','ATT_PU1', 'ATT_PU2', 'ATT_PU3', 'ATT_PU4', 
                         'ATT_PU5', 'ATT_PU6', 'ATT_PU7', 'ATT_PU8', 'ATT_PU9', 'ATT_PU10', 
@@ -72,6 +82,16 @@ HOURS = ['00', '01', '02', '03', '04', '05', '06', '07',
          '16', '17', '18', '19', '20', '21', '22', '23']
 
 def extract_hourly_mean_std(dataframe):
+    """ Get the hourly mean and standard deviation for each hour in the dataset
+
+        Parameters
+        ----------
+            dataframe : the dataset
+
+        Returns
+        -------
+            list : the hourly mean and standard deviation for all 24 hours
+    """
     return [dataframe.loc[dataframe['HOUR'] == hour].describe()[1:3] for hour in HOURS]
 
 def normalize_by_hour(dataframe, stats):
