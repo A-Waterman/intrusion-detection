@@ -87,7 +87,23 @@ class base_detector():
  
 
 class intrusion_detector(base_detector):
+    """ Best intrusion detection model
+    """
     def __init__(self, X, gmm_components=36, pca_components=28, neighbors=10, state=None):
+        """Initialization
+
+        Parameters
+        ----------
+            X : array, baseline 'safe' features to use (without attacks)
+            gmm_components : int, number of Gaussian Mixture Model (GMM) components to use
+            pca_components : int, number of Principal Component Analysis (PCA) components to use
+            neighbors : number of K-nearest neighbors to use in classifier
+            state : int, random state seed
+        
+        Returns
+        -------
+            None
+        """
         self.safe_gmm = GaussianMixture(n_components=gmm_components, 
                                         covariance_type='full', random_state=state)
         self.train_pca = PCA(n_components=pca_components, whiten=True, random_state=state)
