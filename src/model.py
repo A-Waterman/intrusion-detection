@@ -10,6 +10,7 @@ from abc import abstractmethod
 class base_detector():
     """ Base detector class, all detectors inherit methods
     """
+
     @abstractmethod
     def log_liklihood(self, X):
         return
@@ -143,7 +144,24 @@ class intrusion_detector(base_detector):
 
 
 class dual_cov_detector(base_detector):
+    """ dual two covariance estimator detector
+
+
+    """
     def __init__(self, first_cov, second_cov, neighbors=10, weights='uniform'):
+        """Initialization
+
+        Parameters
+        ----------
+            first_cov : covariance detector fitted to the 'safe' dataset
+            second_cov : covariance detector fitted to the 'train' dataset
+            neighbors : number of nearest neighbors to use in classifier
+            weights : string, how to weigh nearest neighbors (default is equally)
+        
+        Returns
+        -------
+            None
+        """
         self.first_cov = first_cov
         self.second_cov = second_cov
         self.clf = KNeighborsClassifier(n_neighbors=neighbors, weights=weights,
