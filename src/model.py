@@ -183,6 +183,17 @@ class dual_cov_detector(base_detector):
         return np.concatenate((ll_first, ll_second), axis=1)
     
     def fit_cov(self, X_first, X_second):
+        """Fit the model to a dataset
+
+        Parameters
+        ----------
+            X_first : array, sample features to train the first covariance estimator on (usually 'safe' dataset)
+            X_second : array, sample features to train the second covariance estimator on (usually 'train' dataset)
+        
+        Returns
+        -------
+            None
+        """
         self.first_cov.fit(X_first)
         self.second_cov.fit(X_second)
         
@@ -210,6 +221,16 @@ class cov_detector(base_detector):
         return self.cov.score_samples(X).reshape(-1, 1)
     
     def fit_cov(self, X):
+        """Fit the model to a dataset
+
+        Parameters
+        ----------
+            X : array, sample features to train the covariance estimator on (usually 'safe' dataset)
+
+        Returns
+        -------
+            None
+        """
         self.cov.fit(X)
         
     def fit(self, X, y):
