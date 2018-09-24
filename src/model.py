@@ -88,7 +88,7 @@ class base_detector():
  
 
 class intrusion_detector(base_detector):
-    """ Best intrusion detection model
+    """ Best intrusion detection model, variant of dual_cov_detector class
     """
     def __init__(self, X, gmm_components=36, pca_components=28, neighbors=10, state=None):
         """Initialization
@@ -144,9 +144,7 @@ class intrusion_detector(base_detector):
 
 
 class dual_cov_detector(base_detector):
-    """ dual two covariance estimator detector
-
-
+    """ dual covariance estimator detector
     """
     def __init__(self, first_cov, second_cov, neighbors=10, weights='uniform'):
         """Initialization
@@ -213,6 +211,8 @@ class dual_cov_detector(base_detector):
         
 
 class cov_detector(base_detector):
+    """ single covariance estimator detector
+    """
     def __init__(self, cov_estimator, neighbors=10, weights='uniform'):
         self.cov = cov_estimator
         self.clf = KNeighborsClassifier(n_neighbors=neighbors, weights=weights,
