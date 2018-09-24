@@ -168,6 +168,16 @@ class dual_cov_detector(base_detector):
                                         algorithm='auto', metric='minkowski')
         
     def log_likelihood(self, X):
+        """Compute the log-likelihood of sample features
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+            log-likelihood : array, the  the log-likelihood of the sample features
+        """
         ll_first = self.first_cov.score_samples(X).reshape(-1, 1)
         ll_second = self.second_cov.score_samples(X).reshape(-1, 1)
         return np.concatenate((ll_first, ll_second), axis=1)
@@ -187,6 +197,16 @@ class cov_detector(base_detector):
                                         algorithm='auto', metric='minkowski')
     
     def log_likelihood(self, X):
+        """Compute the log-likelihood of sample features
+
+        Parameters
+        ----------
+            X : array, sample features to use
+        
+        Returns
+        -------
+            log-likelihood : array, the  the log-likelihood of the sample features
+        """
         return self.cov.score_samples(X).reshape(-1, 1)
     
     def fit_cov(self, X):
