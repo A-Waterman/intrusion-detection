@@ -189,7 +189,7 @@ class dual_cov_detector(base_detector):
         ----------
             X_first : array, sample features to train the first covariance estimator on (usually 'safe' dataset)
             X_second : array, sample features to train the second covariance estimator on (usually 'train' dataset)
-        
+         
         Returns
         -------
             None
@@ -198,6 +198,17 @@ class dual_cov_detector(base_detector):
         self.second_cov.fit(X_second)
         
     def fit(self, X, y):
+        """Fit the model to a dataset
+
+        Parameters
+        ----------
+            X : array, sample features to train the model on
+            y : array, corresponding labels to the sample features
+        
+        Returns
+        -------
+            None
+        """
         self.clf.fit(self.log_likelihood(X), y)
         
 
@@ -234,4 +245,15 @@ class cov_detector(base_detector):
         self.cov.fit(X)
         
     def fit(self, X, y):
+        """Fit the model to a dataset
+
+        Parameters
+        ----------
+            X : array, sample features to train the model on
+            y : array, corresponding labels to the sample features
+        
+        Returns
+        -------
+            None
+        """
         self.clf.fit(self.log_likelihood(X), y)
