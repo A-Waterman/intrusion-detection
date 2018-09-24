@@ -24,6 +24,19 @@ def matthews_correlation(y_true, y_pred):
 
 # numpy version of above code
 def matthews_correlation_coefficent(y_true, y_pred, epsilon=1e-07):
+     """Compute the Matthews correlation coefficient (MCC)
+        Adapted from: https://stackoverflow.com/questions/39895742/matthews-correlation-coefficient-with-keras/40289696#40289696
+
+    Parameters
+    ----------
+       y_true : array, true labels
+       y_pred : array, predicted labels
+       epsilon : small number to prevent divide by zero errors
+        
+    Returns
+    -------
+        MCC : int, the Matthews correlation coefficient (0.0 is random guessing, 1.0 is perfect correlation)
+     """
     y_pred_pos = np.round(np.clip(y_pred, 0, 1))
     y_pred_neg = 1 - y_pred_pos
     
