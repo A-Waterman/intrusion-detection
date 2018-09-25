@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from math import log
 from sklearn.utils.extmath import fast_logdet
+import os
 
 
 def samplewise_log_likelihood(X, mean, precision):
@@ -149,20 +150,20 @@ def label_save_datasets():
         -------
             None, generates 'datasets/train_0.csv', 'datasets/train_1.csv', and 'datasets/test.csv'.
     """
-    if Path("datasets/train_0.csv").exists() == False:
+    if os.path.exists("datasets/train_0.csv") == False:
         training_0 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset03.csv")
         label_attacks(training_0, "safe")
         training_0.to_csv('datasets/train_0.csv', index=False)
     else:
         training_0 = pd.read_csv("datasets/train_0.csv")
 
-    if Path("datasets/train_1.csv").exists() == False:
+    if os.path.exists("datasets/train_1.csv") == False:
         training_1 = pd.read_csv("https://www.batadal.net/data/BATADAL_dataset04.csv")
         normalize(training_0, training_1)
         label_attacks(training_1, "train")
         training_1.to_csv('datasets/train_1.csv', index=False)
 
-    if Path("datasets/test.csv").exists() == False:
+    if os.path.exists("datasets/test.csv") == False:
         test_dataset = pd.read_csv("https://www.batadal.net/data/BATADAL_test_dataset.zip", compression='zip')
         # test_dataset missing attack flag
         test_dataset['ATT_FLAG'] = 0
