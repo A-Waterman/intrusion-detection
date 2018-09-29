@@ -66,4 +66,4 @@ Riccardo Taormina and Stefano Galelli and Nils Ole Tippenhauer and Elad Salomons
 
 ### License
 
-MIT. See LICENSE.md for details.
+MIT. See [LICENSE.md](https://github.com/A-Waterman/intrusion-detection/blob/master/LICENSE.md) for details.
