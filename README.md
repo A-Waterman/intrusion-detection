@@ -42,9 +42,13 @@ Scrips:
 * experiments.py is a script to evaluate various configurations of models
 * visualize.py is a script with visualization code.
 
+### Requirements
+
+See [Requirements.txt](https://github.com/A-Waterman/intrusion-detection/blob/master/Requirements.txt) for full list of requirements.
+
 ### Data
 
-The simulated attack data is obtained from the BATADAL [competition website](https://www.batadal.net/data.html).
+The simulated attack data is obtained from the BATADAL [competition website](https://www.batadal.net/data.html). Run datasets.py to download and label the datasets. 
 
 Each dataset contains tabular data reporting the time stamp and the observed values from 43 selected sensors (not all the sensors in the network). 
 
